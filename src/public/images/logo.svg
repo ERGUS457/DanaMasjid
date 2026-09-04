@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full h-full fill-current">
+  <defs>
+    <linearGradient id="mosqueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14b8a6" />
+      <stop offset="50%" stop-color="#0d9488" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+  </defs>
+
+  <!-- Bulan Sabit & Bintang di Puncak Kubah Utama -->
+  <path d="M 50 6 A 4 4 0 1 1 50 14 A 3.2 3.2 0 1 0 50 7.5 Z" fill="url(#goldGrad)" />
+  <circle cx="53" cy="9" r="1.2" fill="url(#goldGrad)" />
+
+  <!-- Kubah Utama (Kubah Bawang Klasik) -->
+  <path d="M 50 14 C 47 18, 37 25, 37 36 C 37 43, 42 46, 50 46 C 58 46, 63 43, 63 36 C 63 25, 53 18, 50 14 Z" fill="url(#mosqueGrad)" />
+
+  <!-- Aksen Emas di Bawah Kubah -->
+  <rect x="36" y="44.5" width="28" height="2.5" rx="1" fill="url(#goldGrad)" />
+
+  <!-- Badan Gedung Masjid Utama -->
+  <rect x="32" y="47" width="36" height="39" rx="1.5" fill="#0f766e" />
+
+  <!-- Pintu Gerbang Lengkung Islami (Mihrab Arch) -->
+  <path d="M 43 86 L 43 62 C 43 57, 50 54, 50 54 C 50 54, 57 57, 57 62 L 57 86 Z" fill="#042f2e" />
+  <!-- Aksen Garis Pintu Emas -->
+  <path d="M 44.5 86 L 44.5 63 C 44.5 59, 50 56.5, 50 56.5 C 50 56.5, 55.5 59, 55.5 63 L 55.5 86" fill="none" stroke="url(#goldGrad)" stroke-width="1.2" />
+
+  <!-- Jendela Lengkung Kiri & Kanan -->
+  <path d="M 35 62 L 35 55 C 35 52, 38 50, 38 50 C 38 50, 41 52, 41 55 L 41 62 Z" fill="#ccfbf1" opacity="0.9" />
+  <path d="M 59 62 L 59 55 C 59 52, 62 50, 62 50 C 62 50, 65 52, 65 55 L 65 62 Z" fill="#ccfbf1" opacity="0.9" />
+
+  <!-- MENARA KIRI -->
+  <!-- Bulan sabit menara kiri -->
+  <path d="M 21 16 A 2 2 0 1 1 21 20 A 1.6 1.6 0 1 0 21 17 Z" fill="url(#goldGrad)" />
+  <!-- Kubah kecil menara kiri -->
+  <path d="M 21 20 C 19 23, 17 26, 17 29 L 25 29 C 25 26, 23 23, 21 20 Z" fill="url(#goldGrad)" />
+  <!-- Balkon atas menara kiri -->
+  <rect x="16" y="29" width="10" height="3" rx="0.8" fill="#0f766e" />
+  <!-- Tiang menara kiri -->
+  <polygon points="18,32 24,32 25,86 17,86" fill="#115e59" />
+  <!-- Jendela ventilasi menara kiri -->
+  <rect x="20" y="42" width="2" height="6" rx="1" fill="#ccfbf1" opacity="0.8" />
+  <rect x="20" y="56" width="2" height="6" rx="1" fill="#ccfbf1" opacity="0.8" />
+
+  <!-- MENARA KANAN -->
+  <!-- Bulan sabit menara kanan -->
+  <path d="M 79 16 A 2 2 0 1 1 79 20 A 1.6 1.6 0 1 0 79 17 Z" fill="url(#goldGrad)" />
+  <!-- Kubah kecil menara kanan -->
+  <path d="M 79 20 C 77 23, 75 26, 75 29 L 83 29 C 83 26, 81 23, 79 20 Z" fill="url(#goldGrad)" />
+  <!-- Balkon atas menara kanan -->
+  <rect x="74" y="29" width="10" height="3" rx="0.8" fill="#0f766e" />
+  <!-- Tiang menara kanan -->
+  <polygon points="76,32 82,32 83,86 75,86" fill="#115e59" />
+  <!-- Jendela ventilasi menara kanan -->
+  <rect x="78" y="42" width="2" height="6" rx="1" fill="#ccfbf1" opacity="0.8" />
+  <rect x="78" y="56" width="2" height="6" rx="1" fill="#ccfbf1" opacity="0.8" />
+
+  <!-- Pondasi Bawah / Tangga Masjid -->
+  <rect x="12" y="86" width="76" height="4" rx="1" fill="#042f2e" />
+  <rect x="8" y="90" width="84" height="4" rx="1.5" fill="url(#goldGrad)" />
+</svg>

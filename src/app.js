@@ -83,12 +83,13 @@ app.use('/transaksi', transactionRoutes);
 app.use('/kategori', categoryRoutes);
 app.use('/laporan', reportRoutes);
 
-// Root Route Redirection
+// Landing Page (Halaman Utama Publik)
 app.get('/', (req, res) => {
-  if (req.session && req.session.user) {
-    return res.redirect('/dashboard');
-  }
-  return res.redirect('/auth/login');
+  res.render('landing/index', {
+    layout: false,
+    title: 'DanaMasjid - Sistem Tata Kelola & Pencatatan Kas Masjid Multi-Tenant',
+    currentUser: req.session ? req.session.user : null
+  });
 });
 
 // 404 Handler
