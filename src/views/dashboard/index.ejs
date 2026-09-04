@@ -9,36 +9,36 @@
       <h1 class="text-2xl md:text-3xl font-bold tracking-tight">Assalamu'alaikum, <%= currentUser ? currentUser.nama : 'Pengurus' %></h1>
       <p class="text-teal-100/90 text-sm mt-1">Laporan arus kas terkini untuk <span class="font-semibold text-white"><%= currentUser ? currentUser.nama_masjid : 'Masjid' %></span>.</p>
     </div>
-    <div class="flex gap-2.5">
+    <div class="flex flex-wrap gap-2 sm:gap-2.5">
       <button 
         type="button" 
         onclick="openTransactionModal('masuk')" 
-        class="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl text-sm shadow-md transition flex items-center gap-2 cursor-pointer"
+        class="px-3 sm:px-4 py-2 sm:py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl text-xs sm:text-sm shadow-md transition flex items-center gap-1.5 sm:gap-2 cursor-pointer"
       >
-        <i data-lucide="plus-circle" class="w-4 h-4"></i> Kas Masuk
+        <i data-lucide="plus-circle" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i> Kas Masuk
       </button>
       <button 
         type="button" 
         onclick="openTransactionModal('keluar')" 
-        class="px-4 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-xl text-sm shadow-md transition flex items-center gap-2 cursor-pointer"
+        class="px-3 sm:px-4 py-2 sm:py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-xl text-xs sm:text-sm shadow-md transition flex items-center gap-1.5 sm:gap-2 cursor-pointer"
       >
-        <i data-lucide="minus-circle" class="w-4 h-4"></i> Kas Keluar
+        <i data-lucide="minus-circle" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i> Kas Keluar
       </button>
     </div>
   </div>
 
   <!-- Stat Cards Grid -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
     
     <!-- 1. Saldo Kas Berjalan -->
-    <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm relative overflow-hidden">
+    <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm relative overflow-hidden">
       <div class="flex justify-between items-start">
         <div>
           <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Saldo Kas Saat Ini</p>
-          <h3 class="text-2xl font-extrabold text-slate-900 mt-1"><%= formatRupiah(stats.saldo_berjalan) %></h3>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1"><%= formatRupiah(stats.saldo_berjalan) %></h3>
         </div>
-        <div class="p-3 bg-teal-50 text-teal-700 rounded-xl">
-          <i data-lucide="wallet" class="w-6 h-6"></i>
+        <div class="p-2 sm:p-2.5 bg-teal-50 text-teal-700 rounded-xl flex-shrink-0">
+          <i data-lucide="wallet" class="w-4 h-4 sm:w-5 sm:h-5"></i>
         </div>
       </div>
       <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
@@ -48,14 +48,14 @@
     </div>
 
     <!-- 2. Kas Masuk Bulan Ini -->
-    <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+    <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm">
       <div class="flex justify-between items-start">
         <div>
           <p class="text-xs font-semibold text-emerald-600 uppercase tracking-wider">Pemasukan Bulan Ini</p>
-          <h3 class="text-2xl font-extrabold text-emerald-700 mt-1"><%= formatRupiah(stats.masuk_bulan_ini) %></h3>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-emerald-700 mt-1"><%= formatRupiah(stats.masuk_bulan_ini) %></h3>
         </div>
-        <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
-          <i data-lucide="arrow-down-left" class="w-6 h-6"></i>
+        <div class="p-2 sm:p-2.5 bg-emerald-50 text-emerald-600 rounded-xl flex-shrink-0">
+          <i data-lucide="arrow-down-left" class="w-4 h-4 sm:w-5 sm:h-5"></i>
         </div>
       </div>
       <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center gap-1">
@@ -65,14 +65,14 @@
     </div>
 
     <!-- 3. Kas Keluar Bulan Ini -->
-    <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+    <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm">
       <div class="flex justify-between items-start">
         <div>
           <p class="text-xs font-semibold text-rose-600 uppercase tracking-wider">Pengeluaran Bulan Ini</p>
-          <h3 class="text-2xl font-extrabold text-rose-700 mt-1"><%= formatRupiah(stats.keluar_bulan_ini) %></h3>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-rose-700 mt-1"><%= formatRupiah(stats.keluar_bulan_ini) %></h3>
         </div>
-        <div class="p-3 bg-rose-50 text-rose-600 rounded-xl">
-          <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+        <div class="p-2 sm:p-2.5 bg-rose-50 text-rose-600 rounded-xl flex-shrink-0">
+          <i data-lucide="arrow-up-right" class="w-4 h-4 sm:w-5 sm:h-5"></i>
         </div>
       </div>
       <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center gap-1">
@@ -82,14 +82,14 @@
     </div>
 
     <!-- 4. Total Transaksi -->
-    <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+    <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm">
       <div class="flex justify-between items-start">
         <div>
           <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Catatan Transaksi</p>
-          <h3 class="text-2xl font-extrabold text-slate-900 mt-1"><%= stats.total_transaksi %> <span class="text-sm font-normal text-slate-500">kali</span></h3>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1"><%= stats.total_transaksi %> <span class="text-sm font-normal text-slate-500">kali</span></h3>
         </div>
-        <div class="p-3 bg-indigo-50 text-indigo-600 rounded-xl">
-          <i data-lucide="receipt" class="w-6 h-6"></i>
+        <div class="p-2 sm:p-2.5 bg-indigo-50 text-indigo-600 rounded-xl flex-shrink-0">
+          <i data-lucide="receipt" class="w-4 h-4 sm:w-5 sm:h-5"></i>
         </div>
       </div>
       <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500">
@@ -128,7 +128,7 @@
           <% if (recentTransactions.length === 0) { %>
             <tr>
               <td colspan="5" class="py-8 text-center text-slate-400">
-                <i data-lucide="inbox" class="w-8 h-8 mx-auto mb-2 text-slate-300"></i>
+                <i data-lucide="inbox" class="w-6 h-6 mx-auto mb-1.5 text-slate-300"></i>
                 Belum ada data transaksi kas yang dicatat.
               </td>
             </tr>
@@ -171,12 +171,12 @@
 <!-- Modal Tambah Transaksi Cepat -->
 <div id="modal-transaction" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
   <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-    <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-      <h3 id="modal-title" class="font-bold text-slate-800 text-base flex items-center gap-2">
-        <i data-lucide="plus-circle" class="w-5 h-5 text-teal-700"></i> Catat Transaksi Baru
+    <div class="p-4 sm:p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+      <h3 id="modal-title" class="font-bold text-slate-800 text-sm sm:text-base flex items-center gap-2">
+        <i data-lucide="plus-circle" class="w-4 h-4 text-teal-700"></i> Catat Transaksi Baru
       </h3>
       <button onclick="closeModal('modal-transaction')" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
-        <i data-lucide="x" class="w-5 h-5"></i>
+        <i data-lucide="x" class="w-4 h-4"></i>
       </button>
     </div>
 
@@ -276,12 +276,12 @@
       const r = document.getElementById('radio-masuk');
       if (r) r.checked = true;
       const titleEl = document.getElementById('modal-title');
-      if (titleEl) titleEl.innerHTML = '<i data-lucide="plus-circle" class="w-5 h-5 text-emerald-600"></i> Catat Kas Masuk (Penerimaan)';
+      if (titleEl) titleEl.innerHTML = '<i data-lucide="plus-circle" class="w-4 h-4 text-emerald-600"></i> Catat Kas Masuk (Penerimaan)';
     } else {
       const r = document.getElementById('radio-keluar');
       if (r) r.checked = true;
       const titleEl = document.getElementById('modal-title');
-      if (titleEl) titleEl.innerHTML = '<i data-lucide="minus-circle" class="w-5 h-5 text-rose-600"></i> Catat Kas Keluar (Pengeluaran)';
+      if (titleEl) titleEl.innerHTML = '<i data-lucide="minus-circle" class="w-4 h-4 text-rose-600"></i> Catat Kas Keluar (Pengeluaran)';
     }
     filterModalCategories(type);
     openModal('modal-transaction');

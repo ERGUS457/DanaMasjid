@@ -106,8 +106,8 @@
             </div>
             <span class="text-lg font-black text-white">Dana<span class="text-teal-400">Masjid</span></span>
           </a>
-          <button onclick="document.getElementById('mobile-sidebar').classList.add('hidden')" class="p-1 text-slate-400 hover:text-white">
-            <i data-lucide="x" class="w-6 h-6"></i>
+          <button onclick="document.getElementById('mobile-sidebar').classList.add('hidden')" class="p-1.5 text-slate-400 hover:text-white rounded-lg">
+            <i data-lucide="x" class="w-5 h-5"></i>
           </button>
         </div>
         <nav class="mt-4 space-y-2">
@@ -140,8 +140,8 @@
     <header class="h-16 bg-white border-b border-slate-200 px-4 md:px-8 flex items-center justify-between sticky top-0 z-10 shadow-xs">
       <div class="flex items-center gap-3">
         <!-- Mobile Toggle Button -->
-        <button onclick="document.getElementById('mobile-sidebar').classList.remove('hidden')" class="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-lg">
-          <i data-lucide="menu" class="w-6 h-6"></i>
+        <button onclick="document.getElementById('mobile-sidebar').classList.remove('hidden')" class="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-lg" aria-label="Buka Menu">
+          <i data-lucide="menu" class="w-5 h-5"></i>
         </button>
         <div>
           <h2 class="text-lg font-bold text-slate-800"><%= title.split('-')[0].trim() %></h2>
