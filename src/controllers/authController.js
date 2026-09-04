@@ -164,11 +164,16 @@ export const AuthController = {
   },
 
   handleLogout(req, res) {
-    req.session.destroy((err) => {
-      if (err) {
-        console.error('Error destroying session:', err);
-      }
+    if (req.session && typeof req.session.destroy === 'function') {
+      req.session.destroy((err) => {
+        if (err) {
+          console.error('Error destroying session:', err);
+        }
+        res.redirect('/auth/login');
+      });
+    } else {
+      req.session = null;
       res.redirect('/auth/login');
-    });
+    }
   }
 };

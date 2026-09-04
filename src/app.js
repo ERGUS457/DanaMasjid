@@ -1,6 +1,6 @@
 import express from 'express';
 import expressLayouts from 'express-ejs-layouts';
-import session from 'express-session';
+import cookieSession from 'cookie-session';
 import flash from 'connect-flash';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -40,18 +40,15 @@ if (fs.existsSync(dirnamePublic)) {
   app.use(express.static(dirnamePublic));
 }
 
-// Session Configuration
+// Session Configuration via Signed Cookie (Stateless, optimal untuk serverless Vercel)
 app.use(
-  session({
-    secret: process.env.SESSION_SECRET || 'danamasjid_super_secure_key_123',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24, // 24 jam
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-    },
+  cookieSession({
+    name: 'danamasjid_session',
+    keys: [process.env.SESSION_SECRET || 'danamasjid_super_secure_key_123_mosque_safe'],
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 7 hari
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
   })
 );
 
@@ -60,7 +57,7 @@ app.use(flash());
 
 // Global Variables Middleware
 app.use((req, res, next) => {
-  res.locals.currentUser = req.session.user || null;
+  res.locals.currentUser = (req.session && req.session.user) ? req.session.user : null;
   res.locals.currentPath = req.path;
   next();
 });

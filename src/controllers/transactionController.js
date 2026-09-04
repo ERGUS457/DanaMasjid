@@ -47,7 +47,7 @@ export const TransactionController = {
       const masjid_id = req.session.user.masjid_id;
       const { kategori_id, tanggal, tipe, nominal, keterangan } = req.body;
 
-      if (!tanggal || !tipe || !nominal) {
+      if (!tanggal || !tipe || (tipe !== 'masuk' && tipe !== 'keluar') || !nominal) {
         req.flash('error', 'Tanggal, jenis kas, dan nominal transaksi wajib diisi.');
         return res.redirect(req.headers.referer || '/transaksi');
       }
@@ -58,13 +58,15 @@ export const TransactionController = {
         return res.redirect(req.headers.referer || '/transaksi');
       }
 
+      const cleanKategoriId = (kategori_id && typeof kategori_id === 'string' && kategori_id.trim() !== '' && kategori_id.trim() !== 'undefined' && kategori_id.trim() !== 'null') ? kategori_id.trim() : null;
+
       await TransactionModel.create({
         masjid_id,
-        kategori_id: kategori_id || null,
+        kategori_id: cleanKategoriId,
         tanggal,
         tipe,
         nominal: cleanNominal,
-        keterangan: keterangan || ''
+        keterangan: (keterangan || '').trim()
       });
 
       req.flash('success', `Transaksi ${tipe === 'masuk' ? 'pemasukan' : 'pengeluaran'} sebesar ${formatRupiah(cleanNominal)} berhasil dicatat.`);
@@ -82,18 +84,25 @@ export const TransactionController = {
       const { id } = req.params;
       const { kategori_id, tanggal, tipe, nominal, keterangan } = req.body;
 
+      if (!tanggal || !tipe || (tipe !== 'masuk' && tipe !== 'keluar') || !nominal) {
+        req.flash('error', 'Tanggal, jenis kas, dan nominal transaksi wajib diisi.');
+        return res.redirect('/transaksi');
+      }
+
       const cleanNominal = Number(nominal.toString().replace(/[^0-9.-]+/g, ''));
       if (isNaN(cleanNominal) || cleanNominal <= 0) {
         req.flash('error', 'Nominal transaksi harus berupa angka positif.');
         return res.redirect('/transaksi');
       }
 
+      const cleanKategoriId = (kategori_id && typeof kategori_id === 'string' && kategori_id.trim() !== '' && kategori_id.trim() !== 'undefined' && kategori_id.trim() !== 'null') ? kategori_id.trim() : null;
+
       const updated = await TransactionModel.update(id, masjid_id, {
-        kategori_id: kategori_id || null,
+        kategori_id: cleanKategoriId,
         tanggal,
         tipe,
         nominal: cleanNominal,
-        keterangan: keterangan || ''
+        keterangan: (keterangan || '').trim()
       });
 
       if (!updated) {
