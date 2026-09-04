@@ -102,14 +102,14 @@
   </div>
 
   <!-- Detail Table Card -->
-  <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-    <div class="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50/60">
+  <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5 overflow-hidden">
+    <div class="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50/60 rounded-xl mb-3">
       <h3 class="font-bold text-slate-800 text-sm">Rincian Arus Transaksi Periode Ini</h3>
       <span class="text-xs text-slate-500 font-medium">Total <%= transactions.length %> mutasi</span>
     </div>
 
     <div class="overflow-x-auto">
-      <table class="w-full text-left text-sm text-slate-600">
+      <table id="reportsTable" class="w-full text-left text-sm text-slate-600">
         <thead class="bg-slate-50 text-slate-500 uppercase text-[11px] font-semibold border-b border-slate-200">
           <tr>
             <th class="py-3 px-4 w-12 text-center">No</th>
@@ -153,5 +153,33 @@
       </table>
     </div>
   </div>
-
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.DataTable && document.getElementById('reportsTable') && <%= transactions.length %> > 0) {
+      new DataTable('#reportsTable', {
+        pageLength: 25,
+        language: {
+          search: "Cari Rekap:",
+          searchPlaceholder: "Ketik kata kunci...",
+          lengthMenu: "Tampilkan _MENU_ baris",
+          info: "Menampilkan _START_ s/d _END_ dari _TOTAL_ data",
+          infoEmpty: "Menampilkan 0 data",
+          infoFiltered: "(disaring dari _MAX_ total)",
+          zeroRecords: "Tidak ada data transaksi yang cocok",
+          paginate: {
+            first: "Awal",
+            last: "Akhir",
+            next: "Berikutnya",
+            previous: "Sebelumnya"
+          }
+        },
+        order: [],
+        columnDefs: [
+          { orderable: false, targets: [0] }
+        ]
+      });
+    }
+  });
+</script>

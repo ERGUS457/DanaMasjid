@@ -110,9 +110,9 @@
   </div>
 
   <!-- Transactions Table Card -->
-  <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+  <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5 overflow-hidden">
     <div class="overflow-x-auto">
-      <table class="w-full text-left text-sm text-slate-600">
+      <table id="transactionsTable" class="w-full text-left text-sm text-slate-600">
         <thead class="bg-slate-50 text-slate-500 uppercase text-[11px] font-semibold border-b border-slate-200">
           <tr>
             <th class="py-3.5 px-4 w-12 text-center">No</th>
@@ -557,6 +557,39 @@
         delBtn.dataset.nominal
       );
       return;
+    }
+  });
+
+  // Inisialisasi DataTables untuk tabel transaksi
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.DataTable && document.getElementById('transactionsTable') && <%= transactions.length %> > 0) {
+      const dt = new DataTable('#transactionsTable', {
+        pageLength: 10,
+        responsive: true,
+        language: {
+          search: "Cari Data:",
+          searchPlaceholder: "Ketik uraian, pos kas...",
+          lengthMenu: "Tampilkan _MENU_ data",
+          info: "Menampilkan _START_ s/d _END_ dari _TOTAL_ transaksi",
+          infoEmpty: "Menampilkan 0 transaksi",
+          infoFiltered: "(disaring dari _MAX_ total)",
+          zeroRecords: "Tidak ada data transaksi yang cocok",
+          paginate: {
+            first: "Awal",
+            last: "Akhir",
+            next: "Berikutnya",
+            previous: "Sebelumnya"
+          }
+        },
+        order: [],
+        columnDefs: [
+          { orderable: false, targets: [0, 6] }
+        ]
+      });
+
+      dt.on('draw', function() {
+        if (window.lucide) lucide.createIcons();
+      });
     }
   });
 </script>

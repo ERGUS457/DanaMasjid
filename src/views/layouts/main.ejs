@@ -28,13 +28,15 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
   <link rel="stylesheet" href="/css/custom.css">
+  <!-- DataTables CSS requested by user -->
+  <link href="https://cdn.datatables.net/v/dt/dt-3.0.3/datatables.min.css" rel="stylesheet">
   <%- style %>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex">
+<body class="bg-slate-50 text-slate-800 antialiased h-screen overflow-hidden flex">
 
-  <!-- Desktop Sidebar -->
-  <aside class="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col justify-between border-r border-slate-800 shadow-xl z-20">
-    <div>
+  <!-- Desktop Sidebar (Fixed & Stationary) -->
+  <aside class="w-64 h-screen flex-shrink-0 hidden md:flex flex-col justify-between bg-slate-900 text-white border-r border-slate-800 shadow-xl z-20 select-none">
+    <div class="flex-1 overflow-y-auto min-h-0">
       <!-- Brand Logo -->
       <a href="/" class="p-5 border-b border-slate-800/80 flex items-center gap-3 group">
         <div class="w-10 h-10 rounded-xl bg-teal-800 p-2 flex items-center justify-center text-white shadow-md shadow-teal-500/20 group-hover:scale-105 transition">
@@ -76,8 +78,8 @@
       </nav>
     </div>
 
-    <!-- User Profile & Logout -->
-    <div class="p-4 border-t border-slate-800/80 bg-slate-900/60">
+    <!-- User Profile & Logout (Pinned to Bottom) -->
+    <div class="p-4 border-t border-slate-800/80 bg-slate-950/90 flex-shrink-0 mt-auto">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2.5 overflow-hidden">
           <div class="w-8 h-8 rounded-full bg-slate-700 text-teal-300 flex items-center justify-center font-bold text-xs flex-shrink-0">
@@ -98,7 +100,7 @@
   <!-- Mobile Drawer / Sidebar Overlay -->
   <div id="mobile-sidebar" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 hidden md:hidden">
     <div class="w-64 bg-slate-900 text-white h-full flex flex-col justify-between p-4">
-      <div>
+      <div class="flex-1 overflow-y-auto min-h-0">
         <div class="flex items-center justify-between pb-4 border-b border-slate-800">
           <a href="/" class="flex items-center gap-2.5">
             <div class="w-8 h-8 rounded-lg bg-teal-800 p-1.5 flex items-center justify-center">
@@ -125,7 +127,7 @@
           </a>
         </nav>
       </div>
-      <div class="pt-4 border-t border-slate-800">
+      <div class="pt-4 border-t border-slate-800 flex-shrink-0 mt-auto">
         <a href="/auth/logout" class="flex items-center gap-2 text-sm text-red-400 hover:text-red-300">
           <i data-lucide="log-out" class="w-4 h-4"></i> Keluar
         </a>
@@ -133,11 +135,11 @@
     </div>
   </div>
 
-  <!-- Main Content Area -->
-  <div class="flex-1 flex flex-col min-w-0">
+  <!-- Main Content Area (Scrolls independently while sidebar stays stationary) -->
+  <div class="flex-1 h-screen overflow-y-auto flex flex-col min-w-0 bg-slate-50">
     
     <!-- Top Header Bar -->
-    <header class="h-16 bg-white border-b border-slate-200 px-4 md:px-8 flex items-center justify-between sticky top-0 z-10 shadow-xs">
+    <header class="h-16 bg-white border-b border-slate-200 px-4 md:px-8 flex items-center justify-between sticky top-0 z-10 shadow-xs flex-shrink-0">
       <div class="flex items-center gap-3">
         <!-- Mobile Toggle Button -->
         <button onclick="document.getElementById('mobile-sidebar').classList.remove('hidden')" class="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-lg" aria-label="Buka Menu">
@@ -164,11 +166,14 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-4 px-8 text-center text-xs text-slate-500">
+    <footer class="bg-white border-t border-slate-200 py-4 px-8 text-center text-xs text-slate-500 flex-shrink-0 mt-auto">
       &copy; <%= new Date().getFullYear() %> DanaMasjid - Sistem Tata Kelola & Laporan Kas Masjid Amanah.
     </footer>
   </div>
 
+  <!-- jQuery & DataTables CDN requested by user -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/v/dt/dt-3.0.3/datatables.min.js"></script>
   <script src="/js/main.js"></script>
   <%- script %>
   <script>
