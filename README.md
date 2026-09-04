@@ -161,15 +161,24 @@ Setelah menjalankan `npm run seed`, Anda dapat langsung masuk dengan kredensial:
 
 ---
 
+## ☁️ Deployment ke Vercel
+
+Proyek ini telah dikonfigurasi siap pakai untuk Vercel Serverless Function:
+1. Pastikan Anda telah mengimpor repositori `DanaMasjid` di dashboard Vercel.
+2. Pada menu **Project Settings > Environment Variables**, tambahkan:
+   - `DATABASE_URL`: URL PostgreSQL Neon Tech Anda.
+   - `SESSION_SECRET`: Kunci rahasia acak untuk sesi.
+   - `NODE_ENV`: `production`
+3. Konfigurasi `vercel.json` dan handler `api/index.js` otomatis mengarahkan semua lalu lintas web ke serverless Express dan menyajikan aset statis.
+
+---
+
 ## 📤 Perintah Git & Push ke GitHub
 
 Untuk melakukan sinkronisasi dan push ke repositori GitHub:
 ```bash
-git init
 git add .
-git commit -m "feat: initial commit Sistem Keuangan Kas Masjid Multi-Tenant"
-git remote add origin https://github.com/ERGUS457/DanaMasjid.git
-git branch -M main
-git push -u origin main
+git commit -m "fix: konfigurasi vercel serverless function dan rewrite"
+git push origin main
 ```
 *(Catatan: Pastikan file `.env` tidak ter-push ke publik karena sudah otomatis diabaikan oleh `.gitignore`)*.

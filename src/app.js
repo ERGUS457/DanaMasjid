@@ -6,6 +6,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
+import fs from 'fs';
+
 // Import Routes
 import authRoutes from './routes/authRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
@@ -21,12 +23,22 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Trust reverse proxy (wajib untuk HTTPS cookies di Vercel / Railway)
+app.set('trust proxy', 1);
+
 // Body Parser Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Static Files
-app.use(express.static(path.join(__dirname, 'public')));
+// Static Files (Mendukung folder root public maupun src/public)
+const cwdPublic = path.join(process.cwd(), 'public');
+const dirnamePublic = path.join(__dirname, 'public');
+if (fs.existsSync(cwdPublic)) {
+  app.use(express.static(cwdPublic));
+}
+if (fs.existsSync(dirnamePublic)) {
+  app.use(express.static(dirnamePublic));
+}
 
 // Session Configuration
 app.use(
@@ -56,7 +68,10 @@ app.use((req, res, next) => {
 // View Engine & Layout Configuration
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+
+const cwdViews = path.join(process.cwd(), 'src', 'views');
+const dirnameViews = path.join(__dirname, 'views');
+app.set('views', fs.existsSync(cwdViews) ? cwdViews : dirnameViews);
 app.set('layout', 'layouts/main');
 app.set('layout extractScripts', true);
 app.set('layout extractStyles', true);
