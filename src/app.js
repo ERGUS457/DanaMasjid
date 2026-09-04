@@ -77,6 +77,10 @@ app.set('layout extractScripts', true);
 app.set('layout extractStyles', true);
 
 // Application Routing
+// Import Models & Controllers for Public Landing Page
+import { CommentModel } from './models/commentModel.js';
+import { CommentController } from './controllers/commentController.js';
+
 app.use('/auth', authRoutes);
 app.use('/dashboard', dashboardRoutes);
 app.use('/transaksi', transactionRoutes);
@@ -84,13 +88,36 @@ app.use('/kategori', categoryRoutes);
 app.use('/laporan', reportRoutes);
 
 // Landing Page (Halaman Utama Publik)
-app.get('/', (req, res) => {
-  res.render('landing/index', {
-    layout: false,
-    title: 'DanaMasjid - Aplikasi Pembukuan Kas Masjid Amanah & Transparan',
-    currentUser: req.session ? req.session.user : null
-  });
+app.get('/', async (req, res) => {
+  try {
+    const comments = await CommentModel.findAll(30);
+    res.render('landing/index', {
+      layout: false,
+      title: 'DanaMasjid - Aplikasi Pembukuan Kas Masjid Amanah & Transparan',
+      currentUser: req.session ? req.session.user : null,
+      comments: comments || [],
+      messages: {
+        error: req.flash('error'),
+        success: req.flash('success')
+      }
+    });
+  } catch (err) {
+    console.error('Error loading comments for landing page:', err);
+    res.render('landing/index', {
+      layout: false,
+      title: 'DanaMasjid - Aplikasi Pembukuan Kas Masjid Amanah & Transparan',
+      currentUser: req.session ? req.session.user : null,
+      comments: [],
+      messages: {
+        error: [],
+        success: []
+      }
+    });
+  }
 });
+
+// Endpoint Tambah Komentar Publik
+app.post('/komentar', CommentController.addComment);
 
 // 404 Handler
 app.use((req, res) => {

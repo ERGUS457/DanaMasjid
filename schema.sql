@@ -48,3 +48,13 @@ CREATE INDEX IF NOT EXISTS idx_categories_masjid_id ON categories(masjid_id);
 CREATE INDEX IF NOT EXISTS idx_transactions_masjid_id ON transactions(masjid_id);
 CREATE INDEX IF NOT EXISTS idx_transactions_tanggal ON transactions(tanggal);
 CREATE INDEX IF NOT EXISTS idx_transactions_tipe ON transactions(tipe);
+
+-- 5. Tabel Comments (Komentar & Testimoni Jamaah / Pengurus)
+CREATE TABLE IF NOT EXISTS comments (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    nama VARCHAR(100) NOT NULL DEFAULT 'Hamba Allah',
+    komentar TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_comments_created_at ON comments(created_at DESC);

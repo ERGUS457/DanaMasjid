@@ -20,6 +20,26 @@ body {
   background: #94a3b8;
 }
 
+/* Auto-sliding comments marquee */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.comments-track {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 45s linear infinite;
+}
+
+.comments-track:hover {
+  animation-play-state: paused;
+}
+
 /* Print Styling */
 @media print {
   .no-print {

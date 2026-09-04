@@ -103,7 +103,40 @@ async function runSeed() {
         );
       }
     }
-    console.log('✅ Sampel transaksi kas berhasil ditambahkan.');
+    // 5. Contoh Komentar & Doa Jamaah
+    const existingComments = await client.query('SELECT COUNT(*) FROM comments');
+    if (parseInt(existingComments.rows[0].count) === 0) {
+      const sampleComments = [
+        {
+          nama: 'H. Fauzan (Bendahara)',
+          komentar: 'Alhamdulillah, aplikasi ini sangat membantu pencatatan infak Jumat di masjid kami jadi jauh lebih transparan dan rapi.'
+        },
+        {
+          nama: 'Hamba Allah',
+          komentar: 'Semoga menjadi amal jariyah untuk para pengembang. Laporan kas sekarang bisa langsung dicetak dan ditempel di mading masjid.'
+        },
+        {
+          nama: 'Ustadz Ridwan',
+          komentar: 'Sangat praktis digunakan dari HP, tidak perlu repot bawa buku kas besar ke masjid saat sholat Jumat.'
+        },
+        {
+          nama: 'Hamba Allah',
+          komentar: 'Transparansi kas membuat jamaah makin percaya dan semangat berinfak. Syukron katsiron untuk tim DanaMasjid.'
+        },
+        {
+          nama: 'Pak Bambang (DKM)',
+          komentar: 'Fitur cetak A4 dan ekspor PDF-nya mantap sekali, pas untuk laporan pertanggungjawaban kas sebelum khotbah Jumat.'
+        }
+      ];
+
+      for (const com of sampleComments) {
+        await client.query(
+          `INSERT INTO comments (nama, komentar) VALUES ($1, $2)`,
+          [com.nama, com.komentar]
+        );
+      }
+      console.log('✅ Komentar sampel berhasil ditambahkan.');
+    }
 
     await client.query('COMMIT');
     console.log('🎉 Seeding data selesai dengan sukses!');
