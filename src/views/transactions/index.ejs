@@ -121,7 +121,7 @@
             <th class="py-3.5 px-4">Kategori Pos</th>
             <th class="py-3.5 px-4">Uraian / Keterangan</th>
             <th class="py-3.5 px-4 text-right">Nominal</th>
-            <th class="py-3.5 px-4 text-center w-24">Aksi</th>
+            <th class="py-3.5 px-4 text-center w-28">Aksi</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-100">
@@ -162,6 +162,14 @@
                 </td>
                 <td class="py-3.5 px-4 whitespace-nowrap text-center">
                   <div class="flex items-center justify-center gap-1">
+                    <a 
+                      href="/transaksi/<%= trx.id %>/kuitansi" 
+                      target="_blank"
+                      class="p-1.5 text-slate-500 hover:text-teal-700 hover:bg-teal-50 rounded-lg transition cursor-pointer"
+                      title="Cetak Kuitansi / Bukti Kas"
+                    >
+                      <i data-lucide="receipt" class="w-3.5 h-3.5 pointer-events-none"></i>
+                    </a>
                     <button 
                       type="button" 
                       class="btn-edit-trx p-1.5 text-slate-500 hover:text-teal-700 hover:bg-teal-50 rounded-lg transition cursor-pointer"

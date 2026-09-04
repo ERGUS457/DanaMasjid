@@ -41,3 +41,47 @@ export function formatDateInput(date) {
   const day = String(d.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
+
+/**
+ * Konversi angka nominal ke kalimat terbilang bahasa Indonesia
+ * Contoh: 1500000 -> "Satu Juta Lima Ratus Ribu Rupiah"
+ * @param {number|string} amount 
+ * @returns {string}
+ */
+export function terbilang(amount) {
+  const bilangan = [
+    '', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan', 'Sepuluh', 'Sebelas'
+  ];
+  let n = Math.floor(Math.abs(Number(amount) || 0));
+  if (n === 0) return 'Nol Rupiah';
+
+  function convert(x) {
+    if (x < 12) return bilangan[x];
+    if (x < 20) return convert(x - 10) + ' Belas';
+    if (x < 100) return convert(Math.floor(x / 10)) + ' Puluh' + (x % 10 ? ' ' + convert(x % 10) : '');
+    if (x < 200) return 'Seratus' + (x - 100 ? ' ' + convert(x - 100) : '');
+    if (x < 1000) return convert(Math.floor(x / 100)) + ' Ratus' + (x % 100 ? ' ' + convert(x % 100) : '');
+    if (x < 2000) return 'Seribu' + (x - 1000 ? ' ' + convert(x - 1000) : '');
+    if (x < 1000000) return convert(Math.floor(x / 1000)) + ' Ribu' + (x % 1000 ? ' ' + convert(x % 1000) : '');
+    if (x < 1000000000) return convert(Math.floor(x / 1000000)) + ' Juta' + (x % 1000000 ? ' ' + convert(x % 1000000) : '');
+    if (x < 1000000000000) return convert(Math.floor(x / 1000000000)) + ' Miliar' + (x % 1000000000 ? ' ' + convert(x % 1000000000) : '');
+    return convert(Math.floor(x / 1000000000000)) + ' Triliun' + (x % 1000000000000 ? ' ' + convert(x % 1000000000000) : '');
+  }
+
+  return convert(n).trim() + ' Rupiah';
+}
+
+/**
+ * Parse string nominal (yang mungkin berisi koma atau titik ribuan) menjadi angka murni
+ * @param {string|number} val 
+ * @returns {number}
+ */
+export function parseNominal(val) {
+  if (!val && val !== 0) return NaN;
+  let str = val.toString().trim();
+  if (/\.\d{3}(\.|$)/.test(str)) {
+    str = str.replace(/\./g, '');
+  }
+  str = str.replace(/,/g, '').replace(/[^0-9]/g, '');
+  return str ? Number(str) : NaN;
+}

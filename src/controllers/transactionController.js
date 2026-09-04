@@ -1,6 +1,7 @@
 import { TransactionModel } from '../models/transactionModel.js';
 import { CategoryModel } from '../models/categoryModel.js';
-import { formatRupiah, formatTanggalIndo, formatDateInput } from '../utils/formatters.js';
+import { MasjidModel } from '../models/masjidModel.js';
+import { formatRupiah, formatTanggalIndo, formatDateInput, terbilang } from '../utils/formatters.js';
 
 function parseNominal(val) {
   if (!val && val !== 0) return NaN;
@@ -148,6 +149,47 @@ export const TransactionController = {
       console.error('Error delete transaction:', error);
       req.flash('error', 'Gagal menghapus transaksi.');
       return res.redirect('/transaksi');
+    }
+  },
+
+  async printKuitansi(req, res) {
+    try {
+      const { id } = req.params;
+      const masjid_id = req.session.user.masjid_id;
+
+      const [transaction, masjid] = await Promise.all([
+        TransactionModel.findById(id, masjid_id),
+        MasjidModel.findById(masjid_id)
+      ]);
+
+      if (!transaction || !masjid) {
+        req.flash('error', 'Catatan transaksi tidak ditemukan atau tidak memiliki akses.');
+        return res.redirect('/transaksi');
+      }
+
+      // Generate nomor kuitansi unik, misal: KW-20260904-8BFD
+      const d = new Date(transaction.tanggal);
+      const datePart = d.getFullYear().toString() + 
+                       String(d.getMonth() + 1).padStart(2, '0') + 
+                       String(d.getDate()).padStart(2, '0');
+      const idPart = transaction.id.substring(0, 4).toUpperCase();
+      const noKuitansi = `KW-${datePart}-${idPart}`;
+
+      res.render('transactions/kuitansi', {
+        layout: false,
+        title: `Kuitansi ${noKuitansi} - ${masjid.nama_masjid}`,
+        transaction,
+        masjid,
+        noKuitansi,
+        terbilangText: terbilang(transaction.nominal),
+        formatRupiah,
+        formatTanggalIndo,
+        currentUser: req.session.user
+      });
+    } catch (error) {
+      console.error('Error rendering kuitansi:', error);
+      req.flash('error', 'Gagal menampilkan tanda terima kuitansi.');
+      res.redirect('/transaksi');
     }
   }
 };

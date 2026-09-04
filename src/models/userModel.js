@@ -34,5 +34,38 @@ export const UserModel = {
       [masjid_id, nama, email, password_hash, role]
     );
     return res.rows[0];
+  },
+
+  async findWithPassword(id) {
+    const res = await pool.query(
+      `SELECT id, masjid_id, nama, email, password_hash, role 
+       FROM users 
+       WHERE id = $1 
+       LIMIT 1`,
+      [id]
+    );
+    return res.rows[0] || null;
+  },
+
+  async updateProfile(id, { nama, email }) {
+    const res = await pool.query(
+      `UPDATE users 
+       SET nama = $1, email = LOWER($2) 
+       WHERE id = $3 
+       RETURNING id, masjid_id, nama, email, role`,
+      [nama, email, id]
+    );
+    return res.rows[0];
+  },
+
+  async updatePassword(id, password_hash) {
+    const res = await pool.query(
+      `UPDATE users 
+       SET password_hash = $1 
+       WHERE id = $2 
+       RETURNING id`,
+      [password_hash, id]
+    );
+    return res.rows[0];
   }
 };

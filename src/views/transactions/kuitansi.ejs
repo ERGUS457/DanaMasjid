@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="/css/custom.css">
+  <style>
+    @media print {
+      body {
+        background: white !important;
+        margin: 0;
+        padding: 0;
+        font-size: 11pt;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .kuitansi-card {
+        box-shadow: none !important;
+        border: 2px solid #0f172a !important;
+        margin: 0 !important;
+        padding: 1.5rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800 p-4 sm:p-8">
+
+  <!-- Floating Print Control Bar (Hidden on Print) -->
+  <div class="no-print max-w-3xl mx-auto mb-6 bg-slate-900/90 backdrop-blur-md text-white px-5 py-3 rounded-2xl shadow-xl flex items-center justify-between">
+    <div class="flex items-center gap-2 text-xs sm:text-sm">
+      <i data-lucide="receipt" class="w-4 h-4 text-teal-400"></i>
+      <span class="font-bold">Pratinjau Kuitansi Kas</span>
+      <span class="hidden sm:inline text-slate-400">| Siap cetak ke kertas atau simpan sebagai PDF</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <button 
+        onclick="window.print()" 
+        class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm cursor-pointer"
+      >
+        <i data-lucide="printer" class="w-3.5 h-3.5"></i> Cetak Kuitansi
+      </button>
+      <a 
+        href="/transaksi" 
+        class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold transition flex items-center gap-1"
+      >
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Kembali
+      </a>
+    </div>
+  </div>
+
+  <!-- Kuitansi Container Card -->
+  <div class="max-w-3xl mx-auto bg-white rounded-3xl p-6 sm:p-10 shadow-xl border-2 border-slate-300 kuitansi-card relative overflow-hidden">
+    
+    <!-- Watermark Background -->
+    <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none">
+      <i data-lucide="landmark" class="w-96 h-96"></i>
+    </div>
+
+    <!-- Header / Kop Kuitansi -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-6 border-b-2 border-slate-900 gap-4">
+      <div class="flex items-center gap-3.5">
+        <div class="w-12 h-12 rounded-2xl bg-teal-800 p-2.5 flex items-center justify-center text-white flex-shrink-0 shadow-sm">
+          <img src="/images/logo.svg" alt="Logo Masjid" class="w-full h-full object-contain">
+        </div>
+        <div>
+          <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight uppercase"><%= masjid.nama_masjid %></h1>
+          <p class="text-xs text-slate-600 mt-0.5"><%= masjid.alamat || 'Alamat Masjid Belum Diatur' %></p>
+        </div>
+      </div>
+
+      <div class="text-left sm:text-right flex-shrink-0 bg-slate-50 sm:bg-transparent p-2.5 sm:p-0 rounded-xl sm:rounded-none w-full sm:w-auto border sm:border-0 border-slate-200">
+        <span class="inline-block px-3 py-1 bg-teal-800 text-white rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-1">
+          <%= transaction.tipe === 'masuk' ? 'Kuitansi Penerimaan Kas' : 'Bukti Pengeluaran Kas' %>
+        </span>
+        <p class="text-xs font-mono font-bold text-slate-700">No: <span class="text-teal-900"><%= noKuitansi %></span></p>
+        <p class="text-[11px] text-slate-500">Tanggal: <%= formatTanggalIndo(transaction.tanggal) %></p>
+      </div>
+    </div>
+
+    <!-- Isi Kuitansi Formal -->
+    <div class="py-6 space-y-4 text-xs sm:text-sm">
+      
+      <!-- Baris: Telah Diterima Dari -->
+      <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
+        <span class="w-44 text-slate-500 font-semibold flex-shrink-0">
+          <%= transaction.tipe === 'masuk' ? 'Telah Diterima Dari' : 'Diserahkan Kepada' %>
+        </span>
+        <span class="hidden sm:inline text-slate-400">:</span>
+        <div class="flex-1 font-bold text-slate-800 border-b border-dotted border-slate-400 pb-1">
+          <%= transaction.keterangan ? transaction.keterangan.split('-')[0].trim() : 'Hamba Allah / Jamaah Masjid' %>
+        </div>
+      </div>
+
+      <!-- Baris: Uang Sejumlah (Terbilang) -->
+      <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
+        <span class="w-44 text-slate-500 font-semibold flex-shrink-0">Uang Sejumlah</span>
+        <span class="hidden sm:inline text-slate-400">:</span>
+        <div class="flex-1 italic font-semibold text-slate-900 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2">
+          # <%= terbilangText %> #
+        </div>
+      </div>
+
+      <!-- Baris: Untuk Pembayaran / Peruntukan -->
+      <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
+        <span class="w-44 text-slate-500 font-semibold flex-shrink-0">Untuk Keperluan</span>
+        <span class="hidden sm:inline text-slate-400">:</span>
+        <div class="flex-1 text-slate-800 border-b border-dotted border-slate-400 pb-1">
+          <span class="font-bold text-teal-800">[<%= transaction.nama_kategori || (transaction.tipe === 'masuk' ? 'Kas Masuk' : 'Kas Keluar') %>]</span>
+          <span class="text-slate-700 ml-1"><%= transaction.keterangan || 'Tanpa Catatan Uraian' %></span>
+        </div>
+      </div>
+
+      <!-- Baris: Jenis Transaksi -->
+      <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
+        <span class="w-44 text-slate-500 font-semibold flex-shrink-0">Status Pembukuan</span>
+        <span class="hidden sm:inline text-slate-400">:</span>
+        <div class="flex-1 text-slate-700 font-medium">
+          Tercatat resmi dalam Buku Kas Masjid <%= masjid.nama_masjid %>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Kotak Jumlah Nominal & Tanda Tangan -->
+    <div class="pt-6 border-t-2 border-slate-900 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6">
+      
+      <!-- Nominal Box -->
+      <div class="w-full sm:w-auto">
+        <span class="block text-[10px] text-slate-400 uppercase font-semibold tracking-wider mb-1">Jumlah Nominal:</span>
+        <div class="px-5 py-3 bg-slate-900 text-white rounded-2xl font-black text-xl sm:text-2xl tracking-tight shadow-md border-2 border-slate-900 flex items-center gap-2">
+          <span class="text-teal-400 text-sm font-semibold">Rp</span>
+          <span><%= Number(transaction.nominal).toLocaleString('id-ID') %></span>
+        </div>
+      </div>
+
+      <!-- Kolom Tanda Tangan -->
+      <div class="w-full sm:w-auto flex justify-between sm:justify-end gap-8 sm:gap-12 text-center text-xs">
+        
+        <!-- Kolom Penyetor -->
+        <div>
+          <p class="text-slate-500 text-[11px] mb-12"><%= transaction.tipe === 'masuk' ? 'Penyetor / Donatur' : 'Penerima Kas' %></p>
+          <div class="w-32 border-b border-slate-400 mx-auto"></div>
+          <p class="text-[11px] text-slate-400 mt-1">( ........................... )</p>
+        </div>
+
+        <!-- Kolom Pengurus/Bendahara -->
+        <div>
+          <p class="text-slate-500 text-[11px] mb-1"><%= formatTanggalIndo(transaction.tanggal) %></p>
+          <p class="font-bold text-slate-800 text-[11px] mb-10">Bendahara / DKM Masjid</p>
+          <div class="w-36 border-b border-slate-800 mx-auto"></div>
+          <p class="font-bold text-slate-900 text-xs mt-1"><%= currentUser ? currentUser.nama : 'Pengurus Kas' %></p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Catatan Penutup Do'a -->
+    <div class="mt-8 pt-4 border-t border-slate-100 text-center text-[11px] text-slate-500 italic">
+      "Jazakumullahu Khairan Katsiran. Semoga infak dan sedekah ini menjadi amal jariyah yang dilipatgandakan pahalanya oleh Allah SWT."
+    </div>
+
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

@@ -8,6 +8,7 @@ router.use(requireAuth);
 
 router.get('/', TransactionController.index);
 router.post('/', TransactionController.create);
+router.get('/:id/kuitansi', TransactionController.printKuitansi);
 router.post('/:id/edit', TransactionController.update);
 router.post('/:id/delete', TransactionController.delete);
 

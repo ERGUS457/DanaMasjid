@@ -14,6 +14,7 @@ import dashboardRoutes from './routes/dashboardRoutes.js';
 import transactionRoutes from './routes/transactionRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
+import settingsRoutes from './routes/settingsRoutes.js';
 
 dotenv.config();
 
@@ -83,6 +84,7 @@ app.use('/dashboard', dashboardRoutes);
 app.use('/transaksi', transactionRoutes);
 app.use('/kategori', categoryRoutes);
 app.use('/laporan', reportRoutes);
+app.use('/pengaturan', settingsRoutes);
 
 // Landing Page (Halaman Utama Publik)
 app.get('/', async (req, res) => {

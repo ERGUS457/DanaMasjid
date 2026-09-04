@@ -1,0 +1,219 @@
+<div class="space-y-6 max-w-5xl">
+
+  <!-- Header Section -->
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+    <div>
+      <h1 class="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight">Pengaturan Masjid & Akun</h1>
+      <p class="text-xs text-slate-500 mt-0.5">Kelola identitas masjid, penyesuaian saldo awal kas, dan keamanan akun pengurus</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <!-- Kolom Kiri: Profil Masjid & Saldo Awal (2 Kolom di Desktop) -->
+    <div class="lg:col-span-2 space-y-6">
+
+      <!-- Form 1: Profil Masjid & Saldo Awal Kas -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-slate-100 flex items-center gap-3 bg-slate-50/70">
+          <div class="w-9 h-9 rounded-xl bg-teal-100 text-teal-800 flex items-center justify-center font-bold text-sm">
+            <i data-lucide="building-2" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-800 text-sm sm:text-base">Informasi Masjid & Saldo Awal</h3>
+            <p class="text-xs text-slate-500">Nama resmi masjid dan saldo dasar pembukuan kas</p>
+          </div>
+        </div>
+
+        <form action="/pengaturan/masjid" method="POST" class="p-5 sm:p-6 space-y-4">
+          <div>
+            <label for="nama_masjid" class="block text-xs font-semibold text-slate-700 mb-1">Nama Masjid *</label>
+            <input 
+              type="text" 
+              id="nama_masjid" 
+              name="nama_masjid" 
+              required 
+              value="<%= masjid.nama_masjid %>"
+              placeholder="Contoh: Masjid Raya Al-Ikhlas" 
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-teal-600 focus:outline-none"
+            >
+          </div>
+
+          <div>
+            <label for="alamat" class="block text-xs font-semibold text-slate-700 mb-1">Alamat Lengkap Masjid</label>
+            <textarea 
+              id="alamat" 
+              name="alamat" 
+              rows="3" 
+              placeholder="Contoh: Jl. Merdeka No. 45, RT 02/05, Kelurahan Sukamaju..."
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-teal-600 focus:outline-none resize-none"
+            ><%= masjid.alamat || '' %></textarea>
+          </div>
+
+          <div>
+            <label for="saldo_awal" class="block text-xs font-semibold text-slate-700 mb-1">
+              Saldo Awal Kas Masjid (Rupiah)
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500 font-semibold text-xs">
+                Rp
+              </div>
+              <input 
+                type="text" 
+                inputmode="numeric"
+                id="saldo_awal" 
+                name="saldo_awal" 
+                value="<%= Number(masjid.saldo_awal || 0).toLocaleString('en-US') %>"
+                placeholder="Contoh: 5,000,000" 
+                class="currency-input w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-teal-600 focus:outline-none"
+              >
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1">
+              Saldo kas awal sebelum pencatatan transaksi dimulai. Saldo ini akan dijumlahkan dengan akumulasi kas masuk dan pengeluaran.
+            </p>
+          </div>
+
+          <div class="pt-2 flex justify-end">
+            <button 
+              type="submit" 
+              class="px-4 sm:px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-xs font-semibold shadow-sm transition flex items-center gap-2 cursor-pointer"
+            >
+              <i data-lucide="check" class="w-3.5 h-3.5"></i> Simpan Data Masjid
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Form 2: Profil Pengurus (Nama & Email) -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-slate-100 flex items-center gap-3 bg-slate-50/70">
+          <div class="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-800 flex items-center justify-center font-bold text-sm">
+            <i data-lucide="user" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-800 text-sm sm:text-base">Profil Pengurus</h3>
+            <p class="text-xs text-slate-500">Nama lengkap dan kontak akun bendahara / pengurus</p>
+          </div>
+        </div>
+
+        <form action="/pengaturan/profil" method="POST" class="p-5 sm:p-6 space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="nama" class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap Pengurus *</label>
+              <input 
+                type="text" 
+                id="nama" 
+                name="nama" 
+                required 
+                value="<%= user.nama %>"
+                placeholder="Contoh: Ustadz Ahmad" 
+                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-teal-600 focus:outline-none"
+              >
+            </div>
+
+            <div>
+              <label for="email" class="block text-xs font-semibold text-slate-700 mb-1">Alamat Email *</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                required 
+                value="<%= user.email %>"
+                placeholder="email@masjid.id" 
+                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-teal-600 focus:outline-none"
+              >
+            </div>
+          </div>
+
+          <div class="pt-2 flex justify-end">
+            <button 
+              type="submit" 
+              class="px-4 sm:px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-xs font-semibold shadow-sm transition flex items-center gap-2 cursor-pointer"
+            >
+              <i data-lucide="check" class="w-3.5 h-3.5"></i> Perbarui Profil
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- Kolom Kanan: Keamanan Akun / Ganti Password -->
+    <div class="space-y-6">
+
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-slate-100 flex items-center gap-3 bg-slate-50/70">
+          <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-sm">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-800 text-sm sm:text-base">Ganti Kata Sandi</h3>
+            <p class="text-xs text-slate-500">Perbarui kata sandi akun secara berkala</p>
+          </div>
+        </div>
+
+        <form action="/pengaturan/password" method="POST" class="p-5 sm:p-6 space-y-4">
+          <div>
+            <label for="password_lama" class="block text-xs font-semibold text-slate-700 mb-1">Kata Sandi Saat Ini *</label>
+            <input 
+              type="password" 
+              id="password_lama" 
+              name="password_lama" 
+              required 
+              placeholder="••••••••" 
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-teal-600 focus:outline-none"
+            >
+          </div>
+
+          <div>
+            <label for="password_baru" class="block text-xs font-semibold text-slate-700 mb-1">Kata Sandi Baru *</label>
+            <input 
+              type="password" 
+              id="password_baru" 
+              name="password_baru" 
+              required 
+              minlength="6"
+              placeholder="Minimal 6 karakter" 
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-teal-600 focus:outline-none"
+            >
+          </div>
+
+          <div>
+            <label for="konfirmasi_password" class="block text-xs font-semibold text-slate-700 mb-1">Konfirmasi Kata Sandi Baru *</label>
+            <input 
+              type="password" 
+              id="konfirmasi_password" 
+              name="konfirmasi_password" 
+              required 
+              minlength="6"
+              placeholder="Ketik ulang kata sandi baru" 
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-teal-600 focus:outline-none"
+            >
+          </div>
+
+          <div class="pt-2">
+            <button 
+              type="submit" 
+              class="w-full px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-semibold shadow-sm transition flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <i data-lucide="key-round" class="w-3.5 h-3.5"></i> Perbarui Kata Sandi
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Ringkasan Info Tenant -->
+      <div class="bg-teal-50/60 rounded-2xl border border-teal-200/70 p-5 space-y-3">
+        <div class="flex items-center gap-2 text-teal-800 font-bold text-xs">
+          <i data-lucide="info" class="w-4 h-4"></i> Catatan Amanah Pembukuan
+        </div>
+        <p class="text-xs text-teal-900/80 leading-relaxed">
+          Semua catatan keuangan terisolasi khusus untuk masjid Anda. Perubahan saldo awal kas akan langsung memperbarui kalkulasi pada Laporan Rekapitulasi Kas & Dashboard.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
