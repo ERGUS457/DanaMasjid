@@ -1,0 +1,74 @@
+<div class="mb-6">
+  <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Masuk Pengurus</h2>
+  <p class="text-sm text-slate-500 mt-1">Silakan masuk ke akun pengelola keuangan masjid Anda</p>
+</div>
+
+<form action="/auth/login" method="POST" class="space-y-4">
+  <div>
+    <label for="email" class="block text-sm font-semibold text-slate-700 mb-1">Email Pengurus</label>
+    <div class="relative">
+      <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+        <i data-lucide="mail" class="w-4 h-4"></i>
+      </div>
+      <input 
+        type="email" 
+        id="email" 
+        name="email" 
+        required 
+        placeholder="nama@masjid.id" 
+        class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-teal-600 transition"
+      >
+    </div>
+  </div>
+
+  <div>
+    <label for="password" class="block text-sm font-semibold text-slate-700 mb-1">Kata Sandi</label>
+    <div class="relative">
+      <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+        <i data-lucide="lock" class="w-4 h-4"></i>
+      </div>
+      <input 
+        type="password" 
+        id="password" 
+        name="password" 
+        required 
+        placeholder="••••••••" 
+        class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-teal-600 transition"
+      >
+    </div>
+  </div>
+
+  <!-- Demo Account Helper Box -->
+  <div class="p-3 bg-teal-50/70 border border-teal-200/80 rounded-xl text-xs text-teal-800">
+    <div class="font-semibold flex items-center gap-1.5 mb-1 text-teal-900">
+      <i data-lucide="info" class="w-3.5 h-3.5 text-teal-600"></i> Akun Pengujian / Demo:
+    </div>
+    <div class="flex justify-between items-center text-slate-600">
+      <span>Email: <strong class="text-teal-950">bendahara@masjid.id</strong></span>
+      <span>Pass: <strong class="text-teal-950">password123</strong></span>
+    </div>
+    <button 
+      type="button" 
+      onclick="document.getElementById('email').value='bendahara@masjid.id'; document.getElementById('password').value='password123';" 
+      class="mt-1.5 text-xs text-teal-700 hover:text-teal-900 font-semibold underline cursor-pointer"
+    >
+      Klik untuk isi otomatis
+    </button>
+  </div>
+
+  <button 
+    type="submit" 
+    class="w-full py-2.5 px-4 bg-teal-700 hover:bg-teal-800 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition duration-200 flex items-center justify-center gap-2 mt-2"
+  >
+    <i data-lucide="log-in" class="w-4 h-4"></i> Masuk ke Dashboard
+  </button>
+</form>
+
+<div class="mt-6 pt-5 border-t border-slate-100 text-center">
+  <p class="text-sm text-slate-600">
+    Belum mendaftarkan masjid Anda? 
+    <a href="/auth/register" class="text-teal-700 hover:text-teal-900 font-semibold underline ml-1">
+      Daftar Sekarang
+    </a>
+  </p>
+</div>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title || 'DanaMasjid - Sistem Keuangan Kas Masjid' %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              500: '#14b8a6',
+              600: '#0d9488',
+              700: '#0f766e',
+              800: '#115e59',
+              900: '#134e4a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="/css/custom.css">
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-teal-950 to-slate-900 min-h-screen flex flex-col justify-center items-center p-4 text-slate-800">
+  
+  <div class="w-full max-w-md">
+    <!-- Brand Logo / Header -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-600 text-white shadow-lg shadow-teal-500/30 mb-3">
+        <i data-lucide="landmark" class="w-8 h-8"></i>
+      </div>
+      <h1 class="text-3xl font-extrabold text-white tracking-tight">Dana<span class="text-teal-400">Masjid</span></h1>
+      <p class="text-sm text-teal-200/80 mt-1">Sistem Pencatatan & Transparansi Keuangan Kas Masjid</p>
+    </div>
+
+    <!-- Alert Messages -->
+    <%- include('../partials/alert') %>
+
+    <!-- Card Content -->
+    <div class="bg-white rounded-2xl shadow-2xl shadow-black/40 border border-slate-100/10 p-7 md:p-8 backdrop-blur-sm">
+      <%- body %>
+    </div>
+
+    <!-- Footer Note -->
+    <div class="text-center mt-6 text-xs text-slate-400">
+      &copy; <%= new Date().getFullYear() %> DanaMasjid Multi-Tenant. Amanah & Transparan.
+    </div>
+  </div>
+
+  <script src="/js/main.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

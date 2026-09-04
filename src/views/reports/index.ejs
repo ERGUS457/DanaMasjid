@@ -1,0 +1,157 @@
+<div class="space-y-6">
+
+  <!-- Header & Export Action Buttons -->
+  <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-800 tracking-tight">Laporan Rekapitulasi Kas</h1>
+      <p class="text-xs text-slate-500 mt-0.5">Ringkasan pembukuan kas masjid siap audit, cetak, dan ekspor data</p>
+    </div>
+    
+    <!-- Action Export Buttons -->
+    <div class="flex flex-wrap items-center gap-2">
+      <!-- 1. Tombol Cetak / Print -->
+      <a 
+        href="/laporan/cetak?startDate=<%= startDate %>&endDate=<%= endDate %>" 
+        target="_blank" 
+        class="px-3.5 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-semibold shadow-sm transition flex items-center gap-2"
+      >
+        <i data-lucide="printer" class="w-4 h-4"></i> Cetak / Print
+      </a>
+
+      <!-- 2. Tombol Unduh PDF -->
+      <a 
+        href="/laporan/pdf?startDate=<%= startDate %>&endDate=<%= endDate %>" 
+        class="px-3.5 py-2 bg-rose-700 hover:bg-rose-800 text-white rounded-xl text-xs font-semibold shadow-sm transition flex items-center gap-2"
+      >
+        <i data-lucide="file-down" class="w-4 h-4"></i> Ekspor PDF
+      </a>
+
+      <!-- 3. Tombol Unduh CSV -->
+      <a 
+        href="/laporan/csv?startDate=<%= startDate %>&endDate=<%= endDate %>" 
+        class="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-semibold shadow-sm transition flex items-center gap-2"
+      >
+        <i data-lucide="sheet" class="w-4 h-4"></i> Ekspor Excel (CSV)
+      </a>
+    </div>
+  </div>
+
+  <!-- Filter Card Periode -->
+  <div class="bg-white p-4 md:p-5 rounded-2xl border border-slate-200 shadow-sm">
+    <form action="/laporan" method="GET" class="flex flex-col sm:flex-row items-end gap-3">
+      <div class="flex-1">
+        <label for="startDate" class="block text-xs font-semibold text-slate-700 mb-1">Mulai Periode *</label>
+        <input 
+          type="date" 
+          id="startDate" 
+          name="startDate" 
+          required 
+          value="<%= startDate %>"
+          class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-800 focus:ring-2 focus:ring-teal-600 focus:outline-none"
+        >
+      </div>
+
+      <div class="flex-1">
+        <label for="endDate" class="block text-xs font-semibold text-slate-700 mb-1">Sampai Periode *</label>
+        <input 
+          type="date" 
+          id="endDate" 
+          name="endDate" 
+          required 
+          value="<%= endDate %>"
+          class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-800 focus:ring-2 focus:ring-teal-600 focus:outline-none"
+        >
+      </div>
+
+      <div>
+        <button 
+          type="submit" 
+          class="w-full sm:w-auto px-5 py-2 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-xs font-semibold transition flex items-center justify-center gap-2"
+        >
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Terapkan Periode
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+      <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Saldo Awal</p>
+      <h3 class="text-xl font-bold text-slate-800 mt-1"><%= formatRupiah(summary.saldo_awal) %></h3>
+      <span class="text-[11px] text-slate-400">Kas awal pembukuan</span>
+    </div>
+
+    <div class="bg-white p-5 rounded-2xl border border-emerald-200 bg-emerald-50/40 shadow-sm">
+      <p class="text-xs font-semibold text-emerald-700 uppercase tracking-wider">Total Kas Masuk</p>
+      <h3 class="text-xl font-bold text-emerald-800 mt-1">+ <%= formatRupiah(summary.total_masuk) %></h3>
+      <span class="text-[11px] text-emerald-600">Penerimaan periode ini</span>
+    </div>
+
+    <div class="bg-white p-5 rounded-2xl border border-rose-200 bg-rose-50/40 shadow-sm">
+      <p class="text-xs font-semibold text-rose-700 uppercase tracking-wider">Total Kas Keluar</p>
+      <h3 class="text-xl font-bold text-rose-800 mt-1">- <%= formatRupiah(summary.total_keluar) %></h3>
+      <span class="text-[11px] text-rose-600">Pengeluaran periode ini</span>
+    </div>
+
+    <div class="bg-white p-5 rounded-2xl border border-teal-300 bg-teal-50/50 shadow-sm">
+      <p class="text-xs font-semibold text-teal-800 uppercase tracking-wider">Saldo Akhir Kas</p>
+      <h3 class="text-xl font-extrabold text-teal-900 mt-1"><%= formatRupiah(summary.saldo_akhir) %></h3>
+      <span class="text-[11px] text-teal-700">Saldo kas riil terkini</span>
+    </div>
+  </div>
+
+  <!-- Detail Table Card -->
+  <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+    <div class="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50/60">
+      <h3 class="font-bold text-slate-800 text-sm">Rincian Arus Transaksi Periode Ini</h3>
+      <span class="text-xs text-slate-500 font-medium">Total <%= transactions.length %> mutasi</span>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm text-slate-600">
+        <thead class="bg-slate-50 text-slate-500 uppercase text-[11px] font-semibold border-b border-slate-200">
+          <tr>
+            <th class="py-3 px-4 w-12 text-center">No</th>
+            <th class="py-3 px-4">Tanggal</th>
+            <th class="py-3 px-4">Pos Kategori</th>
+            <th class="py-3 px-4">Uraian / Keterangan</th>
+            <th class="py-3 px-4 text-right">Kas Masuk</th>
+            <th class="py-3 px-4 text-right">Kas Keluar</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          <% if (transactions.length === 0) { %>
+            <tr>
+              <td colspan="6" class="py-8 text-center text-slate-400 text-xs">
+                Tidak ada transaksi kas tercatat pada rentang periode ini.
+              </td>
+            </tr>
+          <% } else { %>
+            <% transactions.forEach((trx, index) => { %>
+              <tr class="hover:bg-slate-50/60 transition text-xs">
+                <td class="py-3 px-4 text-center text-slate-400"><%= index + 1 %></td>
+                <td class="py-3 px-4 whitespace-nowrap font-medium text-slate-700">
+                  <%= formatTanggalIndo(trx.tanggal) %>
+                </td>
+                <td class="py-3 px-4 whitespace-nowrap font-medium text-slate-800">
+                  <%= trx.nama_kategori || 'Tanpa Kategori' %>
+                </td>
+                <td class="py-3 px-4 text-slate-600 max-w-sm truncate">
+                  <%= trx.keterangan || '-' %>
+                </td>
+                <td class="py-3 px-4 whitespace-nowrap text-right font-semibold text-emerald-700">
+                  <%= trx.tipe === 'masuk' ? formatRupiah(trx.nominal) : '-' %>
+                </td>
+                <td class="py-3 px-4 whitespace-nowrap text-right font-semibold text-rose-700">
+                  <%= trx.tipe === 'keluar' ? formatRupiah(trx.nominal) : '-' %>
+                </td>
+              </tr>
+            <% }); %>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

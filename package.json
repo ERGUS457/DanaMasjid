@@ -1,0 +1,37 @@
+{
+  "name": "danamasjid",
+  "version": "1.0.0",
+  "description": "Sistem Pencatatan Keuangan Masjid Multi-Tenant",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "migrate": "node src/scripts/migrate.js",
+    "seed": "node src/scripts/seed.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.0",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.18.0",
+    "pdfkit": "^0.15.0",
+    "pg": "^8.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  },
+  "keywords": [
+    "masjid",
+    "keuangan",
+    "multi-tenant",
+    "express",
+    "neon",
+    "postgresql"
+  ],
+  "author": "",
+  "license": "ISC"
+}
