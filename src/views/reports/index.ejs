@@ -1,103 +1,103 @@
-<div class="space-y-6">
+<div class="space-y-4 sm:space-y-6">
 
   <!-- Header & Export Action Buttons -->
-  <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
     <div>
-      <h1 class="text-2xl font-bold text-slate-800 tracking-tight">Laporan Rekapitulasi Kas</h1>
-      <p class="text-xs text-slate-500 mt-0.5">Ringkasan pembukuan kas masjid siap audit, cetak, dan ekspor data</p>
+      <h1 class="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight">Laporan Rekapitulasi Kas</h1>
+      <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5">Ringkasan pembukuan kas masjid siap audit, cetak, dan ekspor data</p>
     </div>
     
     <!-- Action Export Buttons -->
-    <div class="flex flex-wrap items-center gap-2">
+    <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
       <!-- 1. Tombol Cetak / Print -->
       <a 
         href="/laporan/cetak?startDate=<%= startDate %>&endDate=<%= endDate %>" 
         target="_blank" 
-        class="px-3.5 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-semibold shadow-sm transition flex items-center gap-2"
+        class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-semibold shadow-sm transition flex items-center gap-1.5"
       >
-        <i data-lucide="printer" class="w-4 h-4"></i> Cetak / Print
+        <i data-lucide="printer" class="w-3.5 h-3.5"></i> Cetak
       </a>
 
       <!-- 2. Tombol Unduh PDF -->
       <a 
         href="/laporan/pdf?startDate=<%= startDate %>&endDate=<%= endDate %>" 
-        class="px-3.5 py-2 bg-rose-700 hover:bg-rose-800 text-white rounded-xl text-xs font-semibold shadow-sm transition flex items-center gap-2"
+        class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-rose-700 hover:bg-rose-800 text-white rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-semibold shadow-sm transition flex items-center gap-1.5"
       >
-        <i data-lucide="file-down" class="w-4 h-4"></i> Ekspor PDF
+        <i data-lucide="file-down" class="w-3.5 h-3.5"></i> PDF
       </a>
 
       <!-- 3. Tombol Unduh CSV -->
       <a 
         href="/laporan/csv?startDate=<%= startDate %>&endDate=<%= endDate %>" 
-        class="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-semibold shadow-sm transition flex items-center gap-2"
+        class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-semibold shadow-sm transition flex items-center gap-1.5"
       >
-        <i data-lucide="sheet" class="w-4 h-4"></i> Ekspor Excel (CSV)
+        <i data-lucide="sheet" class="w-3.5 h-3.5"></i> Excel
       </a>
     </div>
   </div>
 
   <!-- Filter Card Periode -->
-  <div class="bg-white p-4 md:p-5 rounded-2xl border border-slate-200 shadow-sm">
-    <form action="/laporan" method="GET" class="flex flex-col sm:flex-row items-end gap-3">
-      <div class="flex-1">
-        <label for="startDate" class="block text-xs font-semibold text-slate-700 mb-1">Mulai Periode *</label>
-        <input 
-          type="date" 
-          id="startDate" 
-          name="startDate" 
-          required 
-          value="<%= startDate %>"
-          class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-800 focus:ring-2 focus:ring-teal-600 focus:outline-none"
-        >
+  <div class="bg-white p-3 sm:p-5 rounded-2xl border border-slate-200 shadow-sm">
+    <form action="/laporan" method="GET" class="flex flex-col sm:flex-row items-stretch sm:items-end gap-2 sm:gap-3">
+      <div class="flex-1 grid grid-cols-2 gap-2">
+        <div>
+          <label for="startDate" class="block text-[11px] sm:text-xs font-semibold text-slate-700 mb-1">Mulai *</label>
+          <input 
+            type="date" 
+            id="startDate" 
+            name="startDate" 
+            required 
+            value="<%= startDate %>"
+            class="w-full px-2.5 sm:px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-800 focus:ring-2 focus:ring-teal-600 focus:outline-none"
+          >
+        </div>
+        <div>
+          <label for="endDate" class="block text-[11px] sm:text-xs font-semibold text-slate-700 mb-1">Sampai *</label>
+          <input 
+            type="date" 
+            id="endDate" 
+            name="endDate" 
+            required 
+            value="<%= endDate %>"
+            class="w-full px-2.5 sm:px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-800 focus:ring-2 focus:ring-teal-600 focus:outline-none"
+          >
+        </div>
       </div>
-
-      <div class="flex-1">
-        <label for="endDate" class="block text-xs font-semibold text-slate-700 mb-1">Sampai Periode *</label>
-        <input 
-          type="date" 
-          id="endDate" 
-          name="endDate" 
-          required 
-          value="<%= endDate %>"
-          class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-800 focus:ring-2 focus:ring-teal-600 focus:outline-none"
-        >
-      </div>
-
-      <div>
+      <div class="flex-shrink-0">
         <button 
           type="submit" 
-          class="w-full sm:w-auto px-5 py-2 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-xs font-semibold transition flex items-center justify-center gap-2"
+          class="w-full sm:w-auto px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5"
         >
-          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Terapkan Periode
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Terapkan
         </button>
       </div>
     </form>
   </div>
 
   <!-- Summary Cards -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-      <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Saldo Awal</p>
-      <h3 class="text-xl font-bold text-slate-800 mt-1"><%= formatRupiah(summary.saldo_awal) %></h3>
-      <span class="text-[11px] text-slate-400">Kas awal pembukuan</span>
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+    <div class="bg-white p-3.5 sm:p-5 rounded-2xl border border-slate-200 shadow-sm">
+      <p class="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">Saldo Awal</p>
+      <h3 class="text-base sm:text-xl font-bold text-slate-800 mt-1"><%= formatRupiah(summary.saldo_awal) %></h3>
+      <span class="text-[10px] sm:text-[11px] text-slate-400">Kas awal pembukuan</span>
     </div>
 
-    <div class="bg-white p-5 rounded-2xl border border-emerald-200 bg-emerald-50/40 shadow-sm">
-      <p class="text-xs font-semibold text-emerald-700 uppercase tracking-wider">Total Kas Masuk</p>
-      <h3 class="text-xl font-bold text-emerald-800 mt-1">+ <%= formatRupiah(summary.total_masuk) %></h3>
-      <span class="text-[11px] text-emerald-600">Penerimaan periode ini</span>
+    <div class="bg-white p-3.5 sm:p-5 rounded-2xl border border-emerald-200 bg-emerald-50/40 shadow-sm">
+      <p class="text-[10px] sm:text-xs font-semibold text-emerald-700 uppercase tracking-wider">Kas Masuk</p>
+      <h3 class="text-base sm:text-xl font-bold text-emerald-800 mt-1">+ <%= formatRupiah(summary.total_masuk) %></h3>
+      <span class="text-[10px] sm:text-[11px] text-emerald-600">Penerimaan periode ini</span>
     </div>
 
-    <div class="bg-white p-5 rounded-2xl border border-rose-200 bg-rose-50/40 shadow-sm">
-      <p class="text-xs font-semibold text-rose-700 uppercase tracking-wider">Total Kas Keluar</p>
-      <h3 class="text-xl font-bold text-rose-800 mt-1">- <%= formatRupiah(summary.total_keluar) %></h3>
-      <span class="text-[11px] text-rose-600">Pengeluaran periode ini</span>
+    <div class="bg-white p-3.5 sm:p-5 rounded-2xl border border-rose-200 bg-rose-50/40 shadow-sm">
+      <p class="text-[10px] sm:text-xs font-semibold text-rose-700 uppercase tracking-wider">Kas Keluar</p>
+      <h3 class="text-base sm:text-xl font-bold text-rose-800 mt-1">- <%= formatRupiah(summary.total_keluar) %></h3>
+      <span class="text-[10px] sm:text-[11px] text-rose-600">Pengeluaran periode ini</span>
     </div>
 
-    <div class="bg-white p-5 rounded-2xl border border-teal-300 bg-teal-50/50 shadow-sm">
-      <p class="text-xs font-semibold text-teal-800 uppercase tracking-wider">Saldo Akhir Kas</p>
-      <h3 class="text-xl font-extrabold text-teal-900 mt-1"><%= formatRupiah(summary.saldo_akhir) %></h3>
-      <span class="text-[11px] text-teal-700">Saldo kas riil terkini</span>
+    <div class="bg-white p-3.5 sm:p-5 rounded-2xl border border-teal-300 bg-teal-50/50 shadow-sm">
+      <p class="text-[10px] sm:text-xs font-semibold text-teal-800 uppercase tracking-wider">Saldo Akhir</p>
+      <h3 class="text-base sm:text-xl font-extrabold text-teal-900 mt-1"><%= formatRupiah(summary.saldo_akhir) %></h3>
+      <span class="text-[10px] sm:text-[11px] text-teal-700">Saldo kas riil terkini</span>
     </div>
   </div>
 
