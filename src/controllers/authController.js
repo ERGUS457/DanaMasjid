@@ -95,7 +95,13 @@ export const AuthController = {
       await client.query('BEGIN');
 
       // 1. Buat data Masjid
-      const parsedSaldoAwal = parseFloat(saldo_awal) || 0;
+      let parsedSaldoAwal = 0;
+      if (saldo_awal) {
+        let s = saldo_awal.toString().trim();
+        if (/\.\d{3}(\.|$)/.test(s)) s = s.replace(/\./g, '');
+        s = s.replace(/,/g, '').replace(/[^0-9]/g, '');
+        parsedSaldoAwal = parseFloat(s) || 0;
+      }
       const masjid = await MasjidModel.create(
         {
           nama_masjid,

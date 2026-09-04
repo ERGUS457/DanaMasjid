@@ -2,6 +2,18 @@ import { TransactionModel } from '../models/transactionModel.js';
 import { CategoryModel } from '../models/categoryModel.js';
 import { formatRupiah, formatTanggalIndo, formatDateInput } from '../utils/formatters.js';
 
+function parseNominal(val) {
+  if (!val && val !== 0) return NaN;
+  let str = val.toString().trim();
+  // Tangani format ribuan dengan titik (misal: 10.000)
+  if (/\.\d{3}(\.|$)/.test(str)) {
+    str = str.replace(/\./g, '');
+  }
+  // Hapus semua koma dan karakter non-digit lainnya
+  str = str.replace(/,/g, '').replace(/[^0-9]/g, '');
+  return str ? Number(str) : NaN;
+}
+
 export const TransactionController = {
   async index(req, res) {
     try {
@@ -52,7 +64,7 @@ export const TransactionController = {
         return res.redirect(req.headers.referer || '/transaksi');
       }
 
-      const cleanNominal = Number(nominal.toString().replace(/[^0-9.-]+/g, ''));
+      const cleanNominal = parseNominal(nominal);
       if (isNaN(cleanNominal) || cleanNominal <= 0) {
         req.flash('error', 'Nominal transaksi harus berupa angka positif.');
         return res.redirect(req.headers.referer || '/transaksi');
@@ -89,7 +101,7 @@ export const TransactionController = {
         return res.redirect('/transaksi');
       }
 
-      const cleanNominal = Number(nominal.toString().replace(/[^0-9.-]+/g, ''));
+      const cleanNominal = parseNominal(nominal);
       if (isNaN(cleanNominal) || cleanNominal <= 0) {
         req.flash('error', 'Nominal transaksi harus berupa angka positif.');
         return res.redirect('/transaksi');

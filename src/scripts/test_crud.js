@@ -48,12 +48,12 @@ async function runCrudTest() {
     }
     console.log('   ✅ Dashboard loaded successfully with active session.');
 
-    // 3. Test Create Transaction (Kas Masuk)
-    console.log('3️⃣ Testing CREATE Transaction (Kas Masuk)...');
+    // 3. Test Create Transaction (Kas Masuk dengan Nominal Berformat Koma)
+    console.log('3️⃣ Testing CREATE Transaction (Kas Masuk dengan Input Koma "10,000")...');
     const trxParams = new URLSearchParams();
     trxParams.append('tipe', 'masuk');
     trxParams.append('tanggal', '2026-09-04');
-    trxParams.append('nominal', '750000');
+    trxParams.append('nominal', '10,000');
     trxParams.append('keterangan', 'Infak Jamaah Jum\'at Berkah Testing');
     trxParams.append('kategori_id', '');
 
@@ -81,15 +81,18 @@ async function runCrudTest() {
       throw new Error('Transaction was not found in the database after creation!');
     }
     const createdTrx = dbTrxCheck.rows[0];
+    if (Number(createdTrx.nominal) !== 10000) {
+      throw new Error(`Expected nominal to be 10000 from input '10,000', got ${createdTrx.nominal}`);
+    }
     console.log(`   ✅ Transaction created successfully in Neon DB with ID: ${createdTrx.id}`);
     console.log(`      Nominal: Rp ${createdTrx.nominal}, Keterangan: "${createdTrx.keterangan}"`);
 
-    // 4. Test Update Transaction (Koreksi Transaksi)
-    console.log('4️⃣ Testing UPDATE Transaction (Koreksi)...');
+    // 4. Test Update Transaction (Koreksi dengan Nominal Berformat Koma "1,500,000")
+    console.log('4️⃣ Testing UPDATE Transaction (Koreksi dengan Input Koma "1,500,000")...');
     const editParams = new URLSearchParams();
     editParams.append('tipe', 'masuk');
     editParams.append('tanggal', '2026-09-04');
-    editParams.append('nominal', '850000');
+    editParams.append('nominal', '1,500,000');
     editParams.append('keterangan', 'Infak Jamaah Jum\'at Berkah Testing (Diperbarui)');
     editParams.append('kategori_id', '');
 
@@ -108,8 +111,8 @@ async function runCrudTest() {
     }
 
     const dbTrxUpdated = await pool.query(`SELECT * FROM transactions WHERE id = $1`, [createdTrx.id]);
-    if (Number(dbTrxUpdated.rows[0].nominal) !== 850000) {
-      throw new Error(`Expected updated nominal to be 850000, got ${dbTrxUpdated.rows[0].nominal}`);
+    if (Number(dbTrxUpdated.rows[0].nominal) !== 1500000) {
+      throw new Error(`Expected updated nominal to be 1500000, got ${dbTrxUpdated.rows[0].nominal}`);
     }
     console.log(`   ✅ Transaction updated successfully: New Nominal Rp ${dbTrxUpdated.rows[0].nominal}`);
 
