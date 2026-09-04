@@ -87,7 +87,7 @@ app.use('/laporan', reportRoutes);
 app.get('/', (req, res) => {
   res.render('landing/index', {
     layout: false,
-    title: 'DanaMasjid - Sistem Tata Kelola & Pencatatan Kas Masjid Multi-Tenant',
+    title: 'DanaMasjid - Aplikasi Pembukuan Kas Masjid Amanah & Transparan',
     currentUser: req.session ? req.session.user : null
   });
 });
